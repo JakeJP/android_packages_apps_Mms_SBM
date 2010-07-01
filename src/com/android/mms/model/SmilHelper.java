@@ -28,10 +28,10 @@ import com.android.mms.dom.smil.SmilDocumentImpl;
 import com.android.mms.dom.smil.parser.SmilXmlParser;
 import com.android.mms.dom.smil.parser.SmilXmlSerializer;
 import com.android.mms.drm.DrmWrapper;
-import com.google.android.mms.ContentType;
+import com.google.android.mmsMod.ContentType;
 import com.google.android.mms.MmsException;
-import com.google.android.mms.pdu.PduBody;
-import com.google.android.mms.pdu.PduPart;
+import com.google.android.mmsMod.pdu.PduBody;
+import com.google.android.mmsMod.pdu.PduPart;
 
 import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.smil.SMILDocument;

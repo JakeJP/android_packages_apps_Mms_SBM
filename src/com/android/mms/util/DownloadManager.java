@@ -24,8 +24,8 @@ import com.android.mms.data.Contact;
 import com.android.mms.ui.MessagingPreferenceActivity;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.EncodedStringValue;
-import com.google.android.mms.pdu.NotificationInd;
-import com.google.android.mms.pdu.PduPersister;
+import com.google.android.mmsMod.pdu.NotificationInd;
+import com.google.android.mmsMod.pdu.PduPersister;
 import com.google.android.mms.util.SqliteWrapper;
 
 import android.content.BroadcastReceiver;

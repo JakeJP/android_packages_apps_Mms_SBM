@@ -37,12 +37,12 @@ import com.android.mms.transaction.SmsMessageSender;
 import com.android.mms.ui.ComposeMessageActivity;
 import com.android.mms.ui.MessageUtils;
 import com.android.mms.ui.SlideshowEditor;
-import com.google.android.mms.ContentType;
+import com.google.android.mmsMod.ContentType;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.EncodedStringValue;
-import com.google.android.mms.pdu.PduBody;
-import com.google.android.mms.pdu.PduPersister;
-import com.google.android.mms.pdu.SendReq;
+import com.google.android.mmsMod.pdu.PduBody;
+import com.google.android.mmsMod.pdu.PduPersister;
+import com.google.android.mmsMod.pdu.SendReq;
 import com.google.android.mms.util.SqliteWrapper;
 
 import android.content.ContentResolver;
@@ -1054,11 +1054,13 @@ public class WorkingMessage {
 
     private static final String[] MMS_DRAFT_PROJECTION = {
         Mms._ID,        // 0
-        Mms.SUBJECT     // 1
+        Mms.SUBJECT,     // 1
+        Mms.SUBJECT_CHARSET // 2
     };
 
     private static final int MMS_ID_INDEX       = 0;
     private static final int MMS_SUBJECT_INDEX  = 1;
+    private static final int MMS_SUBJECT_CHARSET_INDEX  = 2;
 
     private static Uri readDraftMmsMessage(Context context, long threadId, StringBuilder sb) {
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
@@ -1078,6 +1080,12 @@ public class WorkingMessage {
                 uri = ContentUris.withAppendedId(Mms.Draft.CONTENT_URI,
                         cursor.getLong(MMS_ID_INDEX));
                 String subject = cursor.getString(MMS_SUBJECT_INDEX);
+                if (!TextUtils.isEmpty(subject)) {
+                    EncodedStringValue v = new EncodedStringValue(
+                        cursor.getInt(MMS_SUBJECT_CHARSET_INDEX),
+                        PduPersister.getBytes(subject));
+	                subject = v.getString();
+	            }
                 if (subject != null) {
                     sb.append(subject);
                 }

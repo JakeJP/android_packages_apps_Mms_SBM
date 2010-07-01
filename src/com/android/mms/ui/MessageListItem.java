@@ -65,7 +65,7 @@ import com.android.mms.transaction.TransactionBundle;
 import com.android.mms.transaction.TransactionService;
 import com.android.mms.util.DownloadManager;
 import com.android.mms.util.SmileyParser;
-import com.google.android.mms.pdu.PduHeaders;
+import com.google.android.mmsMod.pdu.PduHeaders;
 
 /**
  * This class provides view of a message in the messages list.

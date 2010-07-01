@@ -364,5 +364,7 @@
     <string name="pref_title_mms_user_agent">カスタムUser-Agent</string>
     <string name="pref_summary_mms_user_agent">MMSクライアントのUser-Agent文字列を変更する</string>
     <string name="pref_mms_user_agent_custom_set">設定されているUser-Agent:\n</string>
+   <string name="pref_title_mms_refer_email">Eメールアドレスを使う</string>
+    <string name="pref_summary_mms_refer_email">宛先の参照でEメールアドレスを検索する</string>
 
 </resources>

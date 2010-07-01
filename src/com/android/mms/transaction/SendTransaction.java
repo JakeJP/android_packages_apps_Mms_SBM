@@ -22,12 +22,12 @@ import com.android.mms.util.SendingProgressTokenManager;
 import com.android.mms.LogTag;
 import com.android.mms.ui.MessageUtils;
 import com.google.android.mms.MmsException;
-import com.google.android.mms.pdu.PduComposer;
-import com.google.android.mms.pdu.PduHeaders;
-import com.google.android.mms.pdu.PduParser;
-import com.google.android.mms.pdu.PduPersister;
-import com.google.android.mms.pdu.SendConf;
-import com.google.android.mms.pdu.SendReq;
+import com.google.android.mmsMod.pdu.PduComposer;
+import com.google.android.mmsMod.pdu.PduHeaders;
+import com.google.android.mmsMod.pdu.PduParser;
+import com.google.android.mmsMod.pdu.PduPersister;
+import com.google.android.mmsMod.pdu.SendConf;
+import com.google.android.mmsMod.pdu.SendReq;
 import com.google.android.mms.pdu.EncodedStringValue;
 import com.google.android.mms.util.SqliteWrapper;
 

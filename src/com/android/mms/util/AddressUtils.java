@@ -18,8 +18,8 @@ package com.android.mms.util;
 
 import com.android.mms.R;
 import com.google.android.mms.pdu.EncodedStringValue;
-import com.google.android.mms.pdu.PduHeaders;
-import com.google.android.mms.pdu.PduPersister;
+import com.google.android.mmsMod.pdu.PduHeaders;
+import com.google.android.mmsMod.pdu.PduPersister;
 import com.google.android.mms.util.SqliteWrapper;
 
 import android.content.Context;

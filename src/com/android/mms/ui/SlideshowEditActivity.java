@@ -24,8 +24,8 @@ import com.android.mms.model.Model;
 import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
 
-import com.google.android.mms.pdu.PduBody;
-import com.google.android.mms.pdu.PduPersister;
+import com.google.android.mmsMod.pdu.PduBody;
+import com.google.android.mmsMod.pdu.PduPersister;
 
 import android.app.ListActivity;
 import android.content.Context;

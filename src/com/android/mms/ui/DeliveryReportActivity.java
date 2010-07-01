@@ -18,7 +18,7 @@
 package com.android.mms.ui;
 
 import com.android.mms.R;
-import com.google.android.mms.pdu.PduHeaders;
+import com.google.android.mmsMod.pdu.PduHeaders;
 import com.google.android.mms.util.SqliteWrapper;
 
 import android.app.ListActivity;

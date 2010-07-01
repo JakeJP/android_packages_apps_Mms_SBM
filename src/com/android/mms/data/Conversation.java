@@ -34,8 +34,8 @@ public class Conversation {
 
     private static final String[] ALL_THREADS_PROJECTION = {
         Threads._ID, Threads.DATE, Threads.MESSAGE_COUNT, Threads.RECIPIENT_IDS,
-        Threads.SNIPPET, Threads.SNIPPET_CHARSET, Threads.READ, Threads.ERROR,
-        Threads.HAS_ATTACHMENT
+        Threads.SNIPPET, Threads.SNIPPET_CHARSET, Threads.READ, Threads.ERROR/*,
+        Threads.HAS_ATTACHMENT*/
     };
     private static final int ID             = 0;
     private static final int DATE           = 1;
@@ -45,7 +45,7 @@ public class Conversation {
     private static final int SNIPPET_CS     = 5;
     private static final int READ           = 6;
     private static final int ERROR          = 7;
-    private static final int HAS_ATTACHMENT = 8;
+//    private static final int HAS_ATTACHMENT = 8;
 
 
     private final Context mContext;
@@ -129,6 +129,15 @@ public class Conversation {
 
             long threadId = getOrCreateThreadId(context, recipients);
             conv = new Conversation(context, threadId, allowQuery);
+            
+            if( conv.mRecipients.size() == 0 ){
+				for( Contact cn : recipients ){
+					Contact contact = Contact.get( cn.getNumber(),  false);
+					contact.setNumber(cn.getNumber());
+					conv.mRecipients.add(contact);
+					conv.mThreadId = threadId;
+				}
+			}
 
             try {
                 Cache.put(conv);
@@ -168,6 +177,10 @@ public class Conversation {
         }
 
         String recipient = uri.getSchemeSpecificPart();
+        // in the case of mailto:xxxxx?yyyyy
+        if( recipient!= null && recipient.indexOf("?")>=0 ){
+            recipient = recipient.substring(0,recipient.indexOf("?"));
+        }
         return get(context, ContactList.getByNumbers(recipient,
                 allowQuery /* don't block */, true /* replace number */), allowQuery);
     }
@@ -512,7 +525,7 @@ public class Conversation {
 
             conv.mHasUnreadMessages = (c.getInt(READ) == 0);
             conv.mHasError = (c.getInt(ERROR) != 0);
-            conv.mHasAttachment = (c.getInt(HAS_ATTACHMENT) != 0);
+            conv.mHasAttachment = false; //(c.getInt(HAS_ATTACHMENT) != 0);
         }
         // Fill in as much of the conversation as we can before doing the slow stuff of looking
         // up the contacts associated with this conversation.

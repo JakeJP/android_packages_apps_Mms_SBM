@@ -72,6 +72,8 @@ public class MessagingPreferenceActivity extends PreferenceActivity implements
     public static final String USER_AGENT                   = "pref_key_mms_user_agent";
     public static final String USER_AGENT_CUSTOM            = "pref_key_mms_user_agent_custom";
 
+    public static final String REFER_EMAIL_ADDRESS          = "pref_key_mms_refer_email";
+
     // Menu entries
     private static final int MENU_RESTORE_DEFAULTS    = 1;
 
@@ -235,14 +237,14 @@ public class MessagingPreferenceActivity extends PreferenceActivity implements
         final String key = preference.getKey();
         IHardwareService hardware = IHardwareService.Stub.asInterface(
                 ServiceManager.getService("hardware"));
-        if (NOTIFICATION_LED_COLOR.equals(key)) {
+        /*if (NOTIFICATION_LED_COLOR.equals(key)) {
             int value = Color.parseColor((String) objValue);
             try {
                 hardware.pulseBreathingLightColor(value);
             } catch (RemoteException re) {
                 Log.e(TAG, "could not preview LED color", re);
             }
-        }
+        }*/
         return true;
     };
 }

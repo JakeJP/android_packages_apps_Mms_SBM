@@ -26,8 +26,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.MergeCursor;
 import android.net.Uri;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
 import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
+import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.telephony.PhoneNumberUtils;
 import android.text.Annotation;
 import android.text.Spannable;
@@ -50,6 +54,7 @@ public class RecipientsAdapter extends ResourceCursorAdapter {
     public static final int LABEL_INDEX      = 4;
     public static final int NAME_INDEX       = 5;
 
+    private boolean mReferEmailAddress = false;
     private static final String[] PROJECTION_PHONE = {
         Phone._ID,                  // 0
         Phone.CONTACT_ID,           // 1
@@ -59,8 +64,19 @@ public class RecipientsAdapter extends ResourceCursorAdapter {
         Phone.DISPLAY_NAME,         // 5
     };
 
+    private static final String[] PROJECTION_EMAIL = {
+        Email._ID,                  // 0
+        Email.CONTACT_ID,           // 1
+        Email.TYPE,                 // 2
+        Email.DATA,               // 3
+        Email.LABEL,                // 4
+        Phone.DISPLAY_NAME,         // 5
+    };
+
     private static final String SORT_ORDER = Contacts.TIMES_CONTACTED + " DESC,"
             + Contacts.DISPLAY_NAME + "," + Phone.TYPE;
+    private static final String SORT_ORDER_EMAIL = Contacts.TIMES_CONTACTED + " DESC,"
+            + Contacts.DISPLAY_NAME + "," + Email.TYPE;
 
     private final Context mContext;
     private final ContentResolver mContentResolver;
@@ -69,6 +85,9 @@ public class RecipientsAdapter extends ResourceCursorAdapter {
         super(context, R.layout.recipient_filter_item, null);
         mContext = context;
         mContentResolver = context.getContentResolver();
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+	mReferEmailAddress = prefs.getBoolean(MessagingPreferenceActivity.REFER_EMAIL_ADDRESS, false);
     }
 
     @Override
@@ -167,6 +186,19 @@ public class RecipientsAdapter extends ResourceCursorAdapter {
                     null,
                     SORT_ORDER);
 
+        // extension to include Email address
+	Cursor phoneCursorEmail = null;
+	if( mReferEmailAddress ){
+	        Uri euri = Uri.withAppendedPath(Email.CONTENT_FILTER_URI, Uri.encode(cons));
+        	phoneCursorEmail =
+	            mContentResolver.query(euri,
+	                    PROJECTION_EMAIL,
+	                    null,
+	                    null,
+	                    SORT_ORDER_EMAIL);
+	}
+
+
         if (phone.length() > 0) {
             ArrayList result = new ArrayList();
             result.add(Integer.valueOf(-1));                    // ID
@@ -187,9 +219,16 @@ public class RecipientsAdapter extends ResourceCursorAdapter {
 
             ArrayListCursor translated = new ArrayListCursor(PROJECTION_PHONE, wrap);
 
-            return new MergeCursor(new Cursor[] { translated, phoneCursor });
+            return new MergeCursor(
+            phoneCursorEmail == null ? 
+            new Cursor[] { translated, phoneCursor } :
+            new Cursor[] { translated, phoneCursor, phoneCursorEmail });
         } else {
-            return phoneCursor;
+			return 
+				phoneCursorEmail == null ?
+				phoneCursor :
+				new MergeCursor( new Cursor[] { phoneCursor, phoneCursorEmail });
+            //return phoneCursor;
         }
     }
 
