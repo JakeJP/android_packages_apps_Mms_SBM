@@ -22,10 +22,10 @@ import com.android.mms.LogTag;
 import com.android.mms.MmsConfig;
 import android.drm.mobile1.DrmException;
 import com.android.mms.drm.DrmWrapper;
-import com.google.android.mms.ContentType;
+import com.google.android.mmsMod.ContentType;
 import com.google.android.mms.MmsException;
-import com.google.android.mms.pdu.PduBody;
-import com.google.android.mms.pdu.PduPart;
+import com.google.android.mmsMod.pdu.PduBody;
+import com.google.android.mmsMod.pdu.PduPart;
 
 import org.w3c.dom.smil.SMILMediaElement;
 import org.w3c.dom.smil.SMILRegionElement;
@@ -61,6 +61,7 @@ public class MediaModelFactory {
         PduPart part = null;
 
         if (src != null) {
+            src = unescapeXML(src);
             if (src.startsWith("cid:")) {
                 part = pb.getPartByContentId("<" + src.substring("cid:".length()) + ">");
             } else {
@@ -79,6 +80,14 @@ public class MediaModelFactory {
         }
 
         throw new IllegalArgumentException("No part found for the model.");
+    }
+
+    private static String unescapeXML(String str) {
+        return str.replaceAll("&lt;","<")
+            .replaceAll("&gt;", ">")
+            .replaceAll("&quot;","\"")
+            .replaceAll("&apos;","'")
+            .replaceAll("&amp;", "&");
     }
 
     private static MediaModel getRegionMediaModel(Context context,

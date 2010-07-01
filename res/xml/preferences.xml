@@ -132,7 +132,23 @@
         </PreferenceCategory>
     </PreferenceScreen>
   </PreferenceCategory>
-  <PreferenceCategory android:title="@string/pref_extra_settings">
+  <!--
+  <PreferenceCategory android:title="@string/pref_cosmetic_settings">
+	<CheckBoxPreference android:key="pref_key_mms_black_background"
+                        android:title="@string/pref_title_mms_black_background"
+                        android:summary="@string/pref_summary_mms_black_background"
+                        android:defaultValue="true" />
+	<Preference android:key="pref_key_mms_conversation_font_size"
+                        android:title="@string/pref_title_mms_conversation_font_size"
+                        android:summary="@string/pref_summary_mms_conversation_font_size"
+                        android:defaultValue="18" />
+	<CheckBoxPreference android:key="pref_key_conversation_hide_names"
+					    android:title="@string/pref_title_conversation_hide_names"
+					    android:summary="@string/pref_summary_conversation_hide_names"
+					    android:defaultValue="false" />
+  </PreferenceCategory>
+-->
+ <PreferenceCategory android:title="@string/pref_extra_settings">
 	<CheckBoxPreference android:key="pref_key_mms_fullscreen_landscape"
                         android:title="@string/pref_title_mms_fullscreen_landscape"
                         android:summary="@string/pref_summary_mms_fullscreen_landscape"
@@ -140,6 +156,11 @@
     <CheckBoxPreference android:key="pref_key_mms_send_on_enter"
                         android:title="@string/pref_title_mms_send_on_enter"
                         android:summary="@string/pref_summary_mms_send_on_enter"
+                        android:defaultValue="true" />
+	<!-- jakeMod -->			
+    <CheckBoxPreference android:key="pref_key_mms_refer_email"
+                        android:title="@string/pref_title_mms_refer_email"
+                        android:summary="@string/pref_summary_mms_refer_email"
                         android:defaultValue="true" />
     <CheckBoxPreference android:key="pref_key_mms_back_to_all_threads"
                         android:title="@string/pref_title_mms_back_to_all_threads"

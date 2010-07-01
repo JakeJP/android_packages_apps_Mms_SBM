@@ -22,12 +22,12 @@ import com.android.mms.ui.MessageUtils;
 import com.android.mms.util.DownloadManager;
 import com.android.mms.util.Recycler;
 import com.google.android.mms.MmsException;
-import com.google.android.mms.pdu.AcknowledgeInd;
-import com.google.android.mms.pdu.PduComposer;
-import com.google.android.mms.pdu.PduHeaders;
-import com.google.android.mms.pdu.PduParser;
-import com.google.android.mms.pdu.PduPersister;
-import com.google.android.mms.pdu.RetrieveConf;
+import com.google.android.mmsMod.pdu.AcknowledgeInd;
+import com.google.android.mmsMod.pdu.PduComposer;
+import com.google.android.mmsMod.pdu.PduHeaders;
+import com.google.android.mmsMod.pdu.PduParser;
+import com.google.android.mmsMod.pdu.PduPersister;
+import com.google.android.mmsMod.pdu.RetrieveConf;
 import com.google.android.mms.pdu.EncodedStringValue;
 import android.database.sqlite.SqliteWrapper;
 

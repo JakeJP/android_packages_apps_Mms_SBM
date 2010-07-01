@@ -187,6 +187,11 @@ public class Conversation {
         }
 
         String recipient = uri.getSchemeSpecificPart();
+		// jakeMod
+        // in the case of mailto:xxxxx?yyyyy
+        if( recipient!= null && recipient.indexOf("?")>=0 ){
+            recipient = recipient.substring(0,recipient.indexOf("?"));
+        }
         return get(context, ContactList.getByNumbers(recipient,
                 allowQuery /* don't block */, true /* replace number */), allowQuery);
     }

@@ -66,11 +66,17 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
     public static final String NOTIFICATION_LED_BLINK_RATE = "pref_key_mms_notification_led_blink_rate";
     public static final String NOTIFICATION_VIBRATE_PATTERN = "pref_key_mms_notification_vibrate_pattern";
     public static final String FULLSCREEN_LANDSCAPE            = "pref_key_mms_fullscreen_landscape";
+    public static final String BLACK_BACKGROUND      = "pref_key_mms_black_background";
+    public static final String CONVERSATION_FONT_SIZE      = "pref_key_mms_conversation_font_size";
+    public static final String CONVERSATION_HIDE_NAMES = "pref_key_conversation_hide_names";
     public static final String SEND_ON_ENTER            = "pref_key_mms_send_on_enter";
     public static final String BACK_TO_ALL_THREADS     = "pref_key_mms_back_to_all_threads";
     public static final String USER_AGENT                   = "pref_key_mms_user_agent";
     public static final String USER_AGENT_CUSTOM            = "pref_key_mms_user_agent_custom";
+    // jakeMod
+    public static final String REFER_EMAIL_ADDRESS          = "pref_key_mms_refer_email";
 
+    
     // Menu entries
     private static final int MENU_RESTORE_DEFAULTS    = 1;
 
@@ -83,6 +89,8 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
     private Recycler mMmsRecycler;
     private static final int CONFIRM_CLEAR_SEARCH_HISTORY_DIALOG = 3;
 
+    // jakeMod
+    private Preference mConversationFontSize;
     @Override
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
@@ -93,6 +101,9 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
         mMmsLimitPref = findPreference("pref_key_mms_delete_limit");
         mClearHistoryPref = findPreference("pref_key_mms_clear_history");
         mVibrateWhenPref = (ListPreference) findPreference(NOTIFICATION_VIBRATE_WHEN);
+        
+        // jakeMod
+        mConversationFontSize = findPreference("pref_key_mms_conversation_font_size");
 
         if (!MmsApp.getApplication().getTelephonyManager().hasIccCard()) {
             // No SIM card, remove the SIM-related prefs
@@ -139,6 +150,17 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
         mMmsLimitPref.setSummary(
                 getString(R.string.pref_summary_delete_limit,
                         mMmsRecycler.getMessageLimit(this)));
+    }
+
+    private int getFontSize() {
+        SharedPreferences mPrefs = mConversationFontSize.getSharedPreferences();
+        return mPrefs.getInt(MessagingPreferenceActivity.CONVERSATION_FONT_SIZE, 18);
+    }
+
+    private void setFontSizeDisplay() {
+        mConversationFontSize.setSummary(
+                getString(R.string.pref_summary_mms_conversation_font_size,
+                        getFontSize()));
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {

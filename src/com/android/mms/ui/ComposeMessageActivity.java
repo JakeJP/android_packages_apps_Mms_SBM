@@ -128,13 +128,13 @@ import com.android.mms.data.ContactList;
 import com.android.mms.data.Conversation;
 import com.android.mms.data.WorkingMessage;
 import com.android.mms.data.WorkingMessage.MessageStatusListener;
-import com.google.android.mms.ContentType;
+import com.google.android.mmsMod.ContentType;
 import com.google.android.mms.pdu.EncodedStringValue;
 import com.google.android.mms.MmsException;
-import com.google.android.mms.pdu.PduBody;
-import com.google.android.mms.pdu.PduPart;
-import com.google.android.mms.pdu.PduPersister;
-import com.google.android.mms.pdu.SendReq;
+import com.google.android.mmsMod.pdu.PduBody;
+import com.google.android.mmsMod.pdu.PduPart;
+import com.google.android.mmsMod.pdu.PduPersister;
+import com.google.android.mmsMod.pdu.SendReq;
 import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
 import com.android.mms.transaction.MessagingNotification;
@@ -143,6 +143,10 @@ import com.android.mms.ui.RecipientsEditor.RecipientContextMenuInfo;
 import com.android.mms.util.SendingProgressTokenManager;
 import com.android.mms.util.SmileyParser;
 
+// jakeMod
+import android.preference.PreferenceManager;
+import android.content.SharedPreferences;
+import java.util.regex.*;
 /**
  * This is the main UI for:
  * 1. Composing a new message;
@@ -1453,6 +1457,8 @@ public class ComposeMessageActivity extends Activity
                     fileName = fileName.substring(0, index);
                 }
 
+				// jakeMod
+				fileName = escapeInvalidFilename(fileName);
                 File file = getUniqueDestination(dir + fileName, extension);
 
                 // make sure the path is valid and directories created for this file.
@@ -1501,7 +1507,13 @@ public class ComposeMessageActivity extends Activity
         }
         return true;
     }
-
+	// jakeMod
+	static final String invalidFilenameCharsRE = "[\\,\\.\\\"\\'\\?]";
+	
+	private String escapeInvalidFilename( String text ){
+		return text == null ? null : text.replaceAll( invalidFilenameCharsRE, "_" );
+	}
+	
     private File getUniqueDestination(String base, String extension) {
         File file = new File(base + "." + extension);
 
@@ -1876,7 +1888,16 @@ public class ComposeMessageActivity extends Activity
         super.onRestart();
 
         if (mWorkingMessage.isDiscarded()) {
-            mWorkingMessage.unDiscard();    // it was discarded in onStop().
+            // If the message isn't worth saving, don't resurrect it. Doing so can lead to
+            // a situation where a new incoming message gets the old thread id of the discarded
+            // draft. This activity can end up displaying the recipients of the old message with
+            // the contents of the new message. Recognize that dangerous situation and bail out
+            // to the ConversationList where the user can enter this in a clean manner.
+            if (mWorkingMessage.isWorthSaving()) {
+                mWorkingMessage.unDiscard();    // it was discarded in onStop().
+            } else {
+                goToConversationList();
+            }
         }
     }
 
@@ -2835,12 +2856,16 @@ public class ComposeMessageActivity extends Activity
 
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
         if (event != null) {
-            /* Faruq: CyanogenMod poison */
+            // if shift key is down, then we want to insert the '\n' char in the TextView;
+            // otherwise, the default action is to send the message.
             if (((event.getKeyCode() == KeyEvent.KEYCODE_DPAD_CENTER) || (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) && !mSendOnEnter) {
             	return false;
             }
-            // if shift key is down, then we want to insert the '\n' char in the TextView;
-            // otherwise, the default action is to send the message.
+			// jakeMod
+            // to prevent double post by ACTION_DOWN and ACTION_UP, we comsume only ACTION_DOWN.
+            if( event.getAction() != KeyEvent.ACTION_DOWN ){
+                return false;
+            }
             if (!event.isShiftPressed()) {
                 if (isPreparedForSending()) {
                     confirmSendMessageIfNeeded();
@@ -3209,24 +3234,42 @@ public class ComposeMessageActivity extends Activity
 
         // If we have been passed a thread_id, use that to find our
         // conversation.
+		// jakeMod
+        Uri intentData = intent.getData();
         long threadId = intent.getLongExtra("thread_id", 0);
         if (threadId > 0) {
             mConversation = Conversation.get(this, threadId, false);
+        } else if ( intentData != null && ! TextUtils.isEmpty(intentData.getEncodedSchemeSpecificPart ()) ) {
+            // try to get a conversation based on the data URI passed to our intent.
+            mConversation = Conversation.get(this, intent.getData(), false);
         } else {
-            Uri intentData = intent.getData();
-
-            if (intentData != null) {
-                // try to get a conversation based on the data URI passed to our intent.
-                mConversation = Conversation.get(this, intentData, false);
-            } else {
-                // special intent extra parameter to specify the address
-                String address = intent.getStringExtra("address");
-                if (!TextUtils.isEmpty(address)) {
-                    mConversation = Conversation.get(this, ContactList.getByNumbers(address,
-                            false /* don't block */, true /* replace number */), false);
-                } else {
-                    mConversation = Conversation.createNew(this);
+            // special intent extra parameter to specify the address
+            String address = intent.getStringExtra("address");
+            if ( TextUtils.isEmpty(address)) {
+                // if address are passed by Intent.EXTRA_EMAIL...
+                // address string should be stripped to be a pure "email address"
+                String[] addresses = intent.getStringArrayExtra ( Intent.EXTRA_EMAIL );
+                if( addresses != null && addresses.length > 0 ){
+            		Pattern pat = Pattern.compile("<?((\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*))>?$"); 
+                    StringBuilder sb = new StringBuilder();
+                    for( String addr : addresses ){
+                        if( TextUtils.isEmpty(addr) ) continue;
+                        if( sb.length() > 0 ){ sb.append(","); }
+                        Matcher m = pat.matcher( addr );
+                        if( m.find() ){
+                            sb.append( m.group(1));
+                        } else {
+                            sb.append( addr );
+                        }
+                    }
+                    address = sb.toString();
                 }
+            }
+            if (!TextUtils.isEmpty(address)) {
+                mConversation = Conversation.get(this, ContactList.getByNumbers(address,
+                        false /* don't block */, true /* replace number */), false);
+            } else {
+                mConversation = Conversation.createNew(this);
             }
         }
         addRecipientsListeners();
@@ -3234,6 +3277,25 @@ public class ComposeMessageActivity extends Activity
         mExitOnSent = intent.getBooleanExtra("exit_on_sent", false);
         mWorkingMessage.setText(intent.getStringExtra("sms_body"));
         mWorkingMessage.setSubject(intent.getStringExtra("subject"), false);
+		// jakeMod
+        // extra...
+        if( intent.hasExtra(Intent.EXTRA_TEXT) ){
+            mWorkingMessage.setText(intent.getStringExtra(Intent.EXTRA_TEXT)); }
+        if( intent.hasExtra(Intent.EXTRA_SUBJECT) ){
+            mWorkingMessage.setSubject(intent.getStringExtra(Intent.EXTRA_SUBJECT), false); }
+            
+        // manipulation of "mailto:xxxxx?subject=xxxx&body=xxxxx"
+        if( intentData != null && intentData.getScheme().equalsIgnoreCase("mailto")){
+            Uri uri = Uri.parse("foo://" + intentData.toString() );
+            List<String> subject = uri.getQueryParameters("subject");
+            if (subject.size() > 0) {
+                mWorkingMessage.setSubject(subject.get(0), false);
+            }
+            List<String> body = uri.getQueryParameters("body");
+            if (body.size() > 0) {
+                mWorkingMessage.setText(body.get(0));
+            }
+        }
     }
 
     private void initFocus() {

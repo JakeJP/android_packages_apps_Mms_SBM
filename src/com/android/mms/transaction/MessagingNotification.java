@@ -17,8 +17,8 @@
 
 package com.android.mms.transaction;
 
-import static com.google.android.mms.pdu.PduHeaders.MESSAGE_TYPE_NOTIFICATION_IND;
-import static com.google.android.mms.pdu.PduHeaders.MESSAGE_TYPE_RETRIEVE_CONF;
+import static com.google.android.mmsMod.pdu.PduHeaders.MESSAGE_TYPE_NOTIFICATION_IND;
+import static com.google.android.mmsMod.pdu.PduHeaders.MESSAGE_TYPE_RETRIEVE_CONF;
 
 import com.android.mms.R;
 import com.android.mms.LogTag;
@@ -31,8 +31,8 @@ import com.android.mms.util.AddressUtils;
 import com.android.mms.util.DownloadManager;
 
 import com.google.android.mms.pdu.EncodedStringValue;
-import com.google.android.mms.pdu.PduHeaders;
-import com.google.android.mms.pdu.PduPersister;
+import com.google.android.mmsMod.pdu.PduHeaders;
+import com.google.android.mmsMod.pdu.PduPersister;
 import android.database.sqlite.SqliteWrapper;
 
 import android.app.Notification;

@@ -27,8 +27,8 @@ import com.android.mms.drm.DrmWrapper;
 import com.android.mms.ui.UriImage;
 import com.android.mms.ui.MessageUtils;
 import com.google.android.mms.MmsException;
-import com.google.android.mms.pdu.PduPart;
-import com.google.android.mms.pdu.PduPersister;
+import com.google.android.mmsMod.pdu.PduPart;
+import com.google.android.mmsMod.pdu.PduPersister;
 
 import org.w3c.dom.events.Event;
 import org.w3c.dom.smil.ElementTime;

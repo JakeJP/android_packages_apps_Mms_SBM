@@ -22,11 +22,12 @@ import com.android.mms.util.SendingProgressTokenManager;
 import com.google.android.mms.InvalidHeaderValueException;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.EncodedStringValue;
-import com.google.android.mms.pdu.GenericPdu;
-import com.google.android.mms.pdu.PduHeaders;
-import com.google.android.mms.pdu.PduPersister;
-import com.google.android.mms.pdu.ReadRecInd;
-import com.google.android.mms.pdu.SendReq;
+
+import com.google.android.mmsMod.pdu.GenericPdu;
+import com.google.android.mmsMod.pdu.PduHeaders;
+import com.google.android.mmsMod.pdu.PduPersister;
+import com.google.android.mmsMod.pdu.ReadRecInd;
+import com.google.android.mmsMod.pdu.SendReq;
 
 import android.content.ContentUris;
 import android.content.Context;
