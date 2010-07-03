@@ -357,31 +357,31 @@
     <string name="pref_summary_conversation_hide_names">"会話表示で名前を表示しない"</string>
 
     <!-- Change LED color for message notification -->
-    <string name="pref_title_mms_notification_led_settings">"LED設定"</string>
-    <string name="pref_title_mms_notification_led">"LEDを点滅させる"</string>
-    <string name="pref_summary_mms_notification_led">"メッセージを受信したらLEDを点滅させる"</string>
-    <string name="pref_title_mms_notification_led_color">"LEDの色"</string>
-    <string name="pref_summary_mms_notification_led_color">"LEDの色を変更する"</string>
-    <string name="pref_dialogtitle_mms_notification_led_color">"LEDの色を選択してください"</string>
+    <string name="pref_title_mms_notification_led_settings">LED設定</string>
+    <string name="pref_title_mms_notification_led">LEDを点滅させる</string>
+    <string name="pref_summary_mms_notification_led">メッセージを受信したらLEDを点滅させる</string>
+    <string name="pref_title_mms_notification_led_color">LEDカラー</string>
+    <string name="pref_summary_mms_notification_led_color">LEDのカラーを変更する</string>
+    <string name="pref_dialogtitle_mms_notification_led_color">LEDカラーを選択してください</string>
 
-    <string name="pref_mms_notification_led_color_green">"緑/デフォルト"</string>
-    <string name="pref_mms_notification_led_color_white">"白"</string>
-    <string name="pref_mms_notification_led_color_red">"赤"</string>
-    <string name="pref_mms_notification_led_color_blue">"青"</string>
-    <string name="pref_mms_notification_led_color_yellow">"黄"</string>
-    <string name="pref_mms_notification_led_color_cyan">"シアン"</string>
-    <string name="pref_mms_notification_led_color_magenta">"マゼンタ"</string>
-    <string name="pref_mms_notification_led_color_pink">"ピンク"</string>
-    <string name="pref_mms_notification_led_color_orange">"オレンジ"</string>
-    <string name="pref_mms_notification_led_color_light_blue">"空色"</string>
+    <string name="pref_mms_notification_led_color_green">グリーン/デフォルト</string>
+    <string name="pref_mms_notification_led_color_white">ホワイト</string>
+    <string name="pref_mms_notification_led_color_red">レッド</string>
+    <string name="pref_mms_notification_led_color_blue">ブルー</string>
+    <string name="pref_mms_notification_led_color_yellow">イエロー</string>
+    <string name="pref_mms_notification_led_color_cyan">シアン</string>
+    <string name="pref_mms_notification_led_color_magenta">マゼンタ</string>
+    <string name="pref_mms_notification_led_color_pink">ピンク</string>
+    <string name="pref_mms_notification_led_color_orange">オレンジ</string>
+    <string name="pref_mms_notification_led_color_light_blue">ライトブルー</string>
 
-    <string name="pref_title_mms_notification_led_blink_rate">"LEDの点滅間隔"</string>
-    <string name="pref_summary_mms_notification_led_blink_rate">"LEDの点滅間隔を変更する"</string>
-    <string name="pref_dialogtitle_mms_notification_led_blink_rate">"LEDの点滅間隔を選択してください"</string>
+    <string name="pref_title_mms_notification_led_blink_rate">LED点滅間隔</string>
+    <string name="pref_summary_mms_notification_led_blink_rate">LEDの点滅間隔を変更する</string>
+    <string name="pref_dialogtitle_mms_notification_led_blink_rate">LED点滅間隔を選択してください</string>
 
-    <string name="pref_title_mms_notification_vibrate_settings">"バイブレーションの設定"</string>
-    <string name="pref_title_mms_notification_vibrate_pattern">"振動パターン"</string>
-    <string name="pref_summary_mms_notification_vibrate_pattern">"振動のパターンを変更する"</string>
+    <string name="pref_title_mms_notification_vibrate_settings">振動設定</string>
+    <string name="pref_title_mms_notification_vibrate_pattern">振動パターン</string>
+    <string name="pref_summary_mms_notification_vibrate_pattern">振動パターンを変更する</string>
 
     <string name="pref_title_mms_back_to_all_threads">"スレッド一覧に戻る"</string>
     <string name="pref_summary_mms_back_to_all_threads">"戻るボタンを押したときに常にスレッド一覧画面に戻る"</string>
