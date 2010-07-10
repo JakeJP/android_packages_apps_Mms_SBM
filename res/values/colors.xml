@@ -41,6 +41,8 @@
 
     <!-- the background color used for unread conversation -->
     <color name="unread_bgcolor">#ffffffff</color>
+    <color name="unread_bgcolor_dark">#ff333333</color>
     <color name="read_bgcolor">#ffeeeeee</color>
+    <color name="read_bgcolor_black">#ff000000</color>
 </resources>
 
